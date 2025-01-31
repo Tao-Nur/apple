@@ -1,28 +1,140 @@
-<!DOCTYPE 
-<html xmlns="http://www.w3.org/1999/xhtml">
- <head>
- <link rel="stylesheet" href="style.css">
-  <title>Двухколоночный макет</title>
+@use postcss-preset-env {
+  stage: 0;
+}
+@use postcss-nested {}
+
+body {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h3 {
+  margin-top: 0;
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+button {
+  padding: 0.25rem 0.5rem;
+  letter-spacing: 0.25rem;
+}
+
+.sizes {
+  margin-bottom: 1rem;
+  label + label {
+    margin-left: 1rem;
+  }
+}
+
+.card {
+  display: grid;
+  grid-gap: 1rem 2rem;
+  align-items: baseline;
   
- 
- </head>
- <body>
-  <div class="layout">
-  <div class="sidebar">
-   <ul>
-    <li>Главная</li><li>Все коктейли</li><li>Коллекции</li>
-    <li>Бокалы</li><li>Компоненты</li><li>Фичи</li>
-   </ul>
-  </div>
-  <div class="content">
-   <img src="images/title-sambarmen.png" alt="Приготовление коктейлей" />
-   <h1>Яблочный эг-ног</h1>
-   <p>Молоко — 40 мл, сок яблочный — 100 мл, сироп сахарный — 30 мм,
-   один яичный желток.</p>
-   <p>Приготовить напиток в миксере, подать в бокале хайбол 
-   со льдом и соломинкой.</p>
-  </div>
-  <div class="footer">&copy; Приготовление коктейлей</div>
- </div>
-</body>
-</html>
+  border: 1px solid lightgray;
+  padding: 0.75rem;
+  
+  &.size_l {
+    width: 50rem;
+    grid-template-areas:
+      'photo info    price'
+      'photo desc    desc'
+      'photo actions date';
+    grid-template-columns: 20rem 1fr max-content;
+  }
+  
+  &.size_m {
+    width: 35rem;
+    grid-template-areas:
+      'photo  photo'
+      'info   price'
+      'info   actions'
+      'desc   desc';
+    grid-template-columns: 1fr max-content;
+    grid-template-rows: 20rem;
+  }
+  
+  &.size_s {
+    width: 20rem;
+    grid-template-areas:
+      'photo'
+      'info';
+    grid-template-rows: 15rem;
+  }
+}
+
+.photo {
+  grid-area: photo;
+  
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.info {
+  grid-area: info;
+}
+
+.price {
+  grid-area: price;
+  
+  font-size: 1.25rem;
+  
+  .size_s & {
+    grid-area: photo;
+    align-self: start;
+    justify-self: stretch;
+    
+    text-align: center;
+    background: rgba(255,255,255,0.5);
+    padding: 0.5rem 0.25rem;
+  }
+}
+
+.description {
+  grid-area: desc;
+  
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  
+  .size_s & {
+    display: none;
+  }
+}
+
+.actions {
+  grid-area: actions;
+
+  .size_m & {
+    justify-self: end;
+  }
+  
+  .size_s & {
+    grid-area: photo;
+    justify-self: end;
+    align-self: end;
+    
+    padding: 0.25rem;
+  }
+}
+
+.date {
+  grid-area: date;
+
+  .size_m &,
+  .size_s & {
+    grid-area: photo;
+    align-self: end;
+    justify-self: start;
+    
+    background: gray;
+    color: white;
+    padding: 0.5rem;
+  }
+}
